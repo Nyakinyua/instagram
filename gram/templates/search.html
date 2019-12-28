@@ -1,0 +1,30 @@
+{%extends 'layout.html'%}
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        {% if images%}
+        <h2 class="capitalize">{{ images|length }} pieces of {{message}} images found</h2>
+        {% else %}
+        <h2> No images found {{message}}</h2>
+        {% endif %}
+
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            {% if images %}
+            {% for image_item in images %}
+                <div class="card col-md-4">
+                    <div class="card border-secondary">
+                    <div class="card-header">
+                        <h4>{{image_item.image_name}}</h4>
+                    </div>
+                    <img class="card-img-top" class="img-responsive" src="{{image_item.image.url}}" size="100px200">
+                </div>
+            </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
