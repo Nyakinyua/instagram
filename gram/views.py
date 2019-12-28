@@ -1,25 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404 
-from .models import Images,Profile
+from .models import Images,Profile,Comment,Followers,Like
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 
 
 
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def index(request):
     title = "Nyakinyua Gram Photos"
     images = Images.get_all_images()
     return render(request,"index.html",{"title":title,"images":images})
 
+@login_required(login_url="/accounts/login/")
+def logout_request(request):
+  '''
+  view function renders home page once logout
+  '''
+  logout(request)
+  return redirect('login/')
 
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
-    posts = Images.get_user_posts(request.user.id)
     try:
+        current_user = request.user.id
         profile = Profile.objects.get(id=id)
-    except DoesNotExist:
+        
+    except Exception as e:
         raise Http404()
-    return render(request,'profile.html',{'profile':profile,'posts':posts})
+    return render(request,'profile.html',{'profile':profile})
 
 def search_results(request):
     if 'image' in request.GET and request.GET["image"]:
@@ -32,8 +43,3 @@ def search_results(request):
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})  
     
-def logout(request):
-    return render(request, 'registration/logout.html')
-
-def login(request):
-    return render(request, 'registration/login.html')

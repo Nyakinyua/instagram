@@ -1,6 +1,9 @@
 {%extends "registration/base.html"%}
+{% load static %}
 {% load bootstrap4 %}
 {% block content %}
+{{block.supper}}
+
 <div class="container">
   <div class="row">
     <!-- Empty div -->
@@ -17,14 +20,16 @@
         <div class="panel-body">
 
           <form  action="/accounts/login/" method="post">
+            <h1>Instagram</h1>
             {% csrf_token %}
             {% bootstrap_form form%}
 
             <div class="form-group">
-              <input type="submit" class="btn btn-primary btn-sm" value="Login">
+              <input type="submit" class="btn btn-info sm" value="Login">
             </div>
 
-            <input type="hidden" name="next" value="{{next}}">
+            <h6 class="animated fadeIn">OR</h6>
+            <p style="text-align:center"><a class="facebook"href="#"><i class='fab fa-facebook'></i>Login with Facebook</a></p>
 
           </form>
 
