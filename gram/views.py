@@ -42,7 +42,12 @@ def upload_pic(request):
         form = UploadImage(request.POST,request.FILES)
         if form.is_valid():
           image=form.save(commit=False) 
-           
+          image.save()
+          
+          return redirect('index')
+    else:
+        form = upload_pic()
+    return render(request,'upload.html',{'title':title,'form':form})
             
 
 def search_results(request):
