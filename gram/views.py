@@ -3,7 +3,7 @@ from django.http import HttpResponse,Http404
 from .models import Images,Profile,Comment,Followers,Like
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-
+from .forms import UploadImage,EditProfile,UpdateProfile,CommentForm,Like,Follow
 
 
 
@@ -31,6 +31,19 @@ def profile(request,id):
     except Exception as e:
         raise Http404()
     return render(request,'profile.html',{'profile':profile})
+
+@login_required(login_url='accounts/login/')
+def upload_pic(request):
+    title='NewPost'
+    current_user = request.user
+    current_user_id= request.user.id
+    
+    if request.method == 'POST':
+        form = UploadImage(request.POST,request.FILES)
+        if form.is_valid():
+          image=form.save(commit=False) 
+           
+            
 
 def search_results(request):
     if 'image' in request.GET and request.GET["image"]:

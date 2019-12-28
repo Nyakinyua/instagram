@@ -1,10 +1,10 @@
 from django import forms
 from .models import Images,Profile,comment,Like,Followers
 
-class postImage(forms.ModelForm):
+class UploadImage(forms.ModelForm):
     class Meta:
-        model=postImage
-         exclude=['likes','comments','date','user','profile']
+        model=Images
+         exclude=['like','comment','profile']
          
 class EditProfile(forms.ModelForm):
     class Meta:
@@ -13,19 +13,19 @@ class EditProfile(forms.ModelForm):
 class UpdateProfile(forms.ModelForm):
     class Meta:
         model=Profile
-        exclude=['userId']
+        exclude=['user']
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model=Comment
-        exclude=['user','images']
+        
 
-class Likes(forms.ModelForm):
+class Like(forms.ModelForm):
     class Meta:
         model=Images
-        exclude=['likes','comments','date','user','userId','profile','image','name','caption']
+        exclude=['likes','comments','pub_on','user','userId','profile','image','name','caption']
 
-class FormFollow(forms.ModelForm):
+class Follow(forms.ModelForm):
     class Meta:
         model=Followers
-        exclude=['user','insta','user_id']
+        exclude=['user','insta']
