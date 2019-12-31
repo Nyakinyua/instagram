@@ -1,14 +1,15 @@
 from django import forms
-from .models import Images,Profile,comment,Like,Followers
+from .models import Images,Profile,Comment,Like,Followers
 
 class UploadImage(forms.ModelForm):
     class Meta:
         model=Images
-         exclude=['like','comment','profile']
+        exclude = ['']
          
 class EditProfile(forms.ModelForm):
     class Meta:
         model=Profile
+        exclude=['userId']
 
 class UpdateProfile(forms.ModelForm):
     class Meta:
@@ -18,6 +19,8 @@ class UpdateProfile(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model=Comment
+        exclude=['user','images']
+
         
 
 class Like(forms.ModelForm):
