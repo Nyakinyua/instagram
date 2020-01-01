@@ -1,17 +1,21 @@
 {%extends 'layout.html'%}
+{% load bootstrap4 %}
 {% block content%}
 
 
 <div class="container">
         <div class="row">
             <div class="col-md-4"></div>
-            <div class="col-md-4"></div><div class="col-md-4">
-        <form action='{% url "newsToday"%}' method="post">
+            
+            <div class="col-md-4">
+        <form class="form-group" action='{% url "uploads"%}' method="post" enctype="multipart/form-data"> 
+           <h3>Share Photos</h3>
             {%csrf_token%}
-            {%bootstrap_form letterForm layout='inline'%}
-            <input type="submit" value="subcribe">
+            {%bootstrap_form form layout='inline'%}
+            <button id="UploadImage" class="btn btn-info" type="submit" name="button">Upload</button>
         </form>
     </div>
+    <div class="col-md-4"></div>
     </div>
     </div>
 

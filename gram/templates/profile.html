@@ -1,9 +1,72 @@
 {% extends "layout.html"%}
-{% block content %}
 
-<h1>{{profile.user_name}}</h1>
-<h2>{{profile.bio}}</h2>
-<img src={{profile.profile_photo.url}} class="img-responsive" alt='image'>
+{{block.supper}}
+{%block content%}
 
+
+<div  class="container prof">
+  <br><br>
+  <div class="row">
+    <div class="col-md-1"> </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-4">
+          {%for i in pic%}
+          <img class="img-fluid rounded-circle" src="{{i.pic.url}}" alt="profile">
+          {%endfor%}
+        </div>
+        <div class="col-md-8">
+          <div class=" idea">
+
+            <a>{{user}}</a> <a href="{%url 'edit'%}"> <button type="button" class="btn btn-light">Edit Profile</button></a><a id="prompt"<i class="fas fa-cog fa-spin"></i></a>
+
+          </div>
+
+          {%for i in pic%}
+          <p>This is is your status</p>
+          <p>{{i.bio}}</p>
+          {%endfor%}
+
+
+
+
+        </div>
+
+      </div>
+      <br>
+      <hr class="info">
+      <div class="tags">
+        <a href="#"><i class="far fa-newspaper"></i> Posts</a><a href="#"><i class="far fa-newspaper"></i> Saved</a>
+      </div>
+     </div>
+    <div class="col-md-1"> </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-8">
+      <div class="row">
+        {%if profile%}
+        {%for photo in profile%}
+        <div class="col-md-6">
+          <div class="image">
+          <a href="/stories/comment/{{photo.id}}"><img class="img-fluid" src="{{photo.image.url}}" alt=""></a>
+            </div>
+          </div>
+
+        {%endfor%}
+        {%else%}
+        <div class="alert">
+          <p class="animated fadeIn alert alert-info">You have not posted any Pictures <br>
+          <a href="{%url 'uploads'%}">Get started</a></p>
+
+        </div>
+        {%endif%}
+
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+
+  </div>
 
 {% endblock %}

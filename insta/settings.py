@@ -70,6 +70,11 @@ TEMPLATES = [
     },
 ]
 
+# UPLOADCARE = {
+#     'pub_key': '3dc67889099b24f4278b',
+#     'secret': '2a83dc2238efd86e143d',
+# }
+
 WSGI_APPLICATION = 'insta.wsgi.application'
 
 

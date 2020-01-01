@@ -1,0 +1,2 @@
+Hello {{name}}
+Welcome to Insta pics. You will experience great moments and get to relive them once you post them here. 

@@ -2,15 +2,16 @@ from django.db import models
 import datetime as dt 
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE) 
-    email = models.EmailField()
+    userId = models.IntegerField(default=None)
     bio = models.TextField(max_length=200)
     profile_photo = models.ImageField(upload_to = 'profile/',blank=True)
     
     def __str__(self):
-        return self.user.username
+        return self.bio
     
     def save_profile(self):
         return self.save()
@@ -19,15 +20,17 @@ class Profile(models.Model):
         profile=Profile.objects.all().delete()
         return profile
     
-    def search_user(cls,username):
-        return User.objects.filter(username__icontains=username)
+    def search_user(cls,user):
+        return User.objects.filter(username__icontains=user)
     
 class Like(models.Model):
     like = models.IntegerField(blank=True,default= 0)
     
 class Comment(models.Model):
     comment = models.TextField(max_length=45,blank=True)
-
+    user=models.ForeignKey(User,on_delete=models.CASCADE,default=None)
+    images=models.IntegerField(default=None)
+    
     def save_comment(self):
         return self.save()
 
@@ -41,9 +44,9 @@ class Images(models.Model):
     image = models.ImageField(upload_to = 'images/',blank=True)
     image_name = models.CharField(max_length=30)
     caption = models.CharField(max_length=100)
-    profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default=None)
-    comment = models.ForeignKey(Comment,on_delete=models.CASCADE,default=None)
-    like = models.ForeignKey(Like,on_delete=models.CASCADE,default=None)
+    userId=models.IntegerField(default=None)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,default=None)
+    like = models.ForeignKey(Like,on_delete=models.CASCADE,default=0)
     posted_on = models.DateField(auto_now_add=True)
     
     def __str__(self):
@@ -82,7 +85,7 @@ class Images(models.Model):
     
 class Followers(models.Model):
     user=models.CharField(max_length=30)
-    insta=models.CharField(default='',max_length=30)
+    insta=models.CharField(default='',max_length=50)
     
     def save_followers(self):
         self.save()

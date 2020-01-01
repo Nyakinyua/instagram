@@ -4,36 +4,54 @@ from .models import Images,Profile,Comment,Followers,Like
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UploadImage,EditProfile,UpdateProfile,CommentForm,Like,Follow
+from django.contrib.auth import logout
 
 
 
 # Create your views here.
-@login_required(login_url='/accounts/login/')
-def index(request):
+def home(request):
     title = "Nyakinyua Gram Photos"
-    images = Images.get_all_images()
-    return render(request,"index.html",{"title":title,"images":images})
+    
+    return render(request,"index.html",{"title":title})
 
 @login_required(login_url="/accounts/login/")
-def logout_request(request):
-  '''
-  view function renders home page once logout
-  '''
-  logout(request)
-  return redirect('login/')
-
-@login_required(login_url='/accounts/login/')
-def profile(request,id):
+def news_feed(request):
     try:
         current_user = request.user.id
-        profile = Profile.objects.get(id=id)
-        
+        images = Images.objects.all()
+        prof_pic = Profile.objects.filter(userId=current_user)
+        profile = prof_pic.reverse()[0:1]
+        users = User.objects.all().exclude(id=request.user.id)
+        comments = Comment.objects.all()
+    except Exception as e:
+        raise Http404
+    return render(request,'all_pics.html',{"images":images,"profile":profile,"users":users,"comments":comments})
+
+
+@login_required(login_url="/accounts/login/")
+def logout_user(request):
+    '''
+    view function renders home page once logout
+    '''
+    
+    logout(request)
+    return redirect('home/')
+
+@login_required(login_url="/accounts/login/")
+def profile(request):
+    try:
+        current_user=request.user.id
+        profile_photos=Images.objects.filter(userId=current_user)
+        profile_image=Profile.objects.filter(userId=current_user).all()
+        profile=profile_image.reverse()[0:1]
+
     except Exception as e:
         raise Http404()
-    return render(request,'profile.html',{'profile':profile})
+
+    return render(request,"profile.html",{'profile':profile_photos,"pic":profile})
 
 @login_required(login_url='accounts/login/')
-def upload_pic(request):
+def uploads(request):
     title='NewPost'
     current_user = request.user
     current_user_id= request.user.id
@@ -42,11 +60,15 @@ def upload_pic(request):
         form = UploadImage(request.POST,request.FILES)
         if form.is_valid():
           image=form.save(commit=False) 
+          image.user=current_user
+          image.userId=current_user_id
+          image.profile=current_user_id
           image.save()
           
-          return redirect('index')
+          return redirect('profile')
     else:
-        form = upload_pic()
+        form = UploadImage()
+    
     return render(request,'upload.html',{'title':title,'form':form})
             
 
@@ -60,4 +82,55 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})  
+
+
+@login_required(login_url='/accounts/login/')
+def edit(request):
+    current_user_id=request.user.id
+    profile=Profile.objects.filter(userId=current_user_id)
+    if len(profile)<1:
+
+        if request.method=='POST':
+            form=EditProfile(request.POST,request.FILES)
+            if form.is_valid():
+                profile=form.save(commit=False)
+                profile.userId=current_user_id
+                profile.save()
+            return redirect("profile")
+        else:
+            form=EditProfile()
+            return render(request,"edit.html",{"form":form})
+    else:
+        if request.method=='POST':
+            form=EditProfile(request.POST,request.FILES )
+            if form.is_valid():
+                profile=form.save(commit=False)
+                bio=form.cleaned_data['bio']
+                profile_photo=form.cleaned_data['profile_photo']
+                update=Profile.objects.filter(userId=current_user_id).update(bio=bio,pic=profile_photo)
+                profile.userId=current_user_id
+                profile.save(update)
+            return redirect("profile")
+        else:
+
+            form=EditProfile()
+
+            return render(request,"edit.html",{"form":form})
+
+@login_required(login_url="/accounts/login/")
+def one_post(request,id):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit = False)
+            comment.user = request.user
+            image = Images.objects.get(id=id)
+            comment.save()
+        return redirect("one_pic") 
+    else:
+        form = CommentForm()
     
+            
+        return render(request,"one_pic.html",{"form":form})   
+     
+     

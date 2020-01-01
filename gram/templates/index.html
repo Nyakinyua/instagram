@@ -1,20 +1,19 @@
 {% extends 'layout.html' %}
-
+{% load static %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-                <div class="col-sm"></div>
-    {% for image_item in images %}
-    
-    <div class="col-sm">
-    <h3>{{image_item.image_name}}</h3>
 
-    <a type='' id="btn-joy"><img src="{{image_item.image.url}}" alt="image"></a>
-    <p>{{image_item.caption}}</p>
-    <div class="col-sm"></div>
-    {% endfor %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="https://images.pexels.com/photos/174938/pexels-photo-174938.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="insta" width="auto" height="100">
+        </div>
+        <div class="col-md-2">
+            <a href="/news_feed"><button class="glow-on-hover" type="button">News Feed Click Me!</button>
+        </div>
+        <div class="col-md-5">
+            <img src="https://images.pexels.com/photos/163184/instagram-cell-phone-tablet-device-163184.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="pic2" height="100" width="auto">
+        </div>
+    </div>
 </div>
 
-</div>
-</div>
 {% endblock %}
