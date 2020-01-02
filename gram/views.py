@@ -119,18 +119,28 @@ def edit(request):
 
 @login_required(login_url="/accounts/login/")
 def one_post(request,id):
+    try:
+        image = Images.objects.filter(id=id).all()
+    except Exception as e:
+        raise Http404
+    imag=Images.objects.filter(id=id).all()
+    
     if request.method == 'POST':
+        current_user=request.user
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit = False)
-            comment.user = request.user
+            comment.user = current_user
             image = Images.objects.get(id=id)
+            comment.image_id = post
             comment.save()
         return redirect("one_pic") 
     else:
         form = CommentForm()
-    
+        image_posted=Images.single_image(id)
+        imageId=Images.get_image_id(id)
+        comments = Comment.get_comments(imageId)
             
-        return render(request,"one_pic.html",{"form":form})   
+        return render(request,"one_pic.html",{"form":form,"images":image,"comments":comments})   
      
      
