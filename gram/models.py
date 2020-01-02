@@ -26,19 +26,7 @@ class Profile(models.Model):
 class Like(models.Model):
     like = models.IntegerField(blank=True,default= 0)
     
-class Comment(models.Model):
-    comment = models.TextField(max_length=45,blank=True)
-    user=models.ForeignKey(User,on_delete=models.CASCADE,default=None)
-    images=models.IntegerField(default=None)
-    
-    def save_comment(self):
-        return self.save()
 
-    def delete_comment(self):
-        return self.delete()
-
-    def __str__(self):
-        return self.comment
 
 class Images(models.Model):
     image = models.ImageField(upload_to = 'images/',blank=True)
@@ -82,6 +70,27 @@ class Images(models.Model):
         """
         posts = cls.objects.filter(posted_by__id__contains=user_id)
         return posts
+    
+class Comment(models.Model):
+    comment = models.TextField(max_length=45,blank=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,default=None)
+    images=models.IntegerField(default=None)
+    image_id = models.ForeignKey(Images,on_delete=models.CASCADE,default=None)
+    
+    def save_comment(self):
+        return self.save()
+
+    def delete_comment(self):
+        return self.delete()
+    
+
+    def __str__(self):
+        return self.comment
+    
+    @classmethod
+    def get_comments(self):
+        comments = cls.objects.filter(image_id__in=id)
+        return comments
     
 class Followers(models.Model):
     user=models.CharField(max_length=30)
