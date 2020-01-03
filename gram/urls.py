@@ -12,9 +12,9 @@ urlpatterns = [
     path('profile/',views.profile,name='profile'),
     path('profile/edit/',views.edit,name='edit'),
     path('search/', views.search_results, name="search_results"),
-     path('one_post/<int:id>',views.one_post,name="one_post"),
+    path('one_post/<int:id>',views.one_post,name="one_post"),
     url(r'upload$',views.uploads,name='uploads'),
-    url(r'^logout/home$',views.logout_user,name="logout_user"),
+    url(r'^logout/$',views.logout_user,name="logout_user"),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

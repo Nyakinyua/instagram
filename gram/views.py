@@ -35,7 +35,7 @@ def logout_user(request):
     '''
     
     logout(request)
-    return redirect('home/')
+    return redirect('/')
 
 @login_required(login_url="/accounts/login/")
 def profile(request):
@@ -73,15 +73,15 @@ def uploads(request):
             
 
 def search_results(request):
-    if 'image' in request.GET and request.GET["image"]:
-        search_term = request.GET.get("image")
-        search_images = Images.search_by_image_name(search_term)
-        
-        message = f"{search_term}"
-        return render(request,"search.html",{"message":message,"images":search_images})
+    if 'user' in request.GET and request.GET['user']:
+        term=request.GET.get("user")
+        found=Images.search_users(term)
+        message=f'{term}'
+
+        return render(request,'search.html',{'message':message,'founds':found,"term":term})
     else:
-        message = "You haven't searched for any term"
-        return render(request, 'search.html',{"message":message})  
+        message="You did not search any user please input a user name"
+        return render(request,"search.html",{"message":message})  
 
 
 @login_required(login_url='/accounts/login/')
@@ -117,30 +117,29 @@ def edit(request):
 
             return render(request,"edit.html",{"form":form})
 
+
+   
 @login_required(login_url="/accounts/login/")
 def one_post(request,id):
-    try:
-        image = Images.objects.filter(id=id).all()
-    except Exception as e:
-        raise Http404
-    imag=Images.objects.filter(id=id).all()
-    
-    if request.method == 'POST':
-        current_user=request.user
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit = False)
-            comment.user = current_user
-            image = Images.objects.get(id=id)
-            comment.image_id = post
-            comment.save()
-        return redirect("one_pic") 
-    else:
-        form = CommentForm()
-        image_posted=Images.single_image(id)
-        imageId=Images.get_image_id(id)
-        comments = Comment.get_comments(imageId)
-            
-        return render(request,"one_pic.html",{"form":form,"images":image,"comments":comments})   
-     
+  '''
+  view function that renders a single post and  comments sections
+  '''  
+  if request.method=='POST':
+    form=CommentForm(request.POST)
+    if form.is_valid():
+      comment=form.save(commit=False)
+      comment.posted_by=request.user      
+      post=Images.get(id=id)
+      comment.image_id=post
+      comment.save()
+      HttpResponseRedirect('one_pic')
+  else:
+    form=CommentForm()
+
+  image=Images.get_one_image(id)  
+  image_Id=Images.get_image_id(id)
+  comments=Comment.get_comments(image_Id)
+      
+  return render(request,'one_pic.html',{"form":form,"comments":comments,"post":image})      
+       
      
