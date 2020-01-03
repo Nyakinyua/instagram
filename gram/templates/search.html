@@ -1,30 +1,52 @@
 {%extends 'layout.html'%}
-{% block content %}
-<div class="container">
+{%load static%}
+{{block.supper}}
+{%block content%}
 
-    <div class="row">
-        {% if images%}
-        <h2 class="capitalize">{{ images|length }} pieces of {{message}} images found</h2>
-        {% else %}
-        <h2> No images found {{message}}</h2>
-        {% endif %}
 
-    </div>
-    <hr>
-    <div class="container">
-        <div class="row">
-            {% if images %}
-            {% for image_item in images %}
-                <div class="card col-md-4">
-                    <div class="card border-secondary">
-                    <div class="card-header">
-                        <h4>{{image_item.image_name}}</h4>
-                    </div>
-                    <img class="card-img-top" class="img-responsive" src="{{image_item.image.url}}" size="100px200">
-                </div>
+
+   <div  class="container ">
+     <div class="row">
+         <div class="col-md-3"></div>
+       <div class="col-md-7 contain">
+         {%if founds%}
+          <p>Marched {{founds|length}} related  Posts</p>
+          {%else%}
+          <p class="alert alert-danger animated fadeIn">Either {{term}} Has no photos to share or has no profile !</p>
+          {%endif%}
+         <div class="card">
+           {%for user in founds%}
+           <div class="card-title">
+            <p><strong>{{user.user}}'s </strong>Posts</div>
+            <div class ="card-body">
+                <p>{{user.image_name}}</p>
+            <img class="img-fluid" src="{{user.image.url}}" alt="" width="300">
             </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
+            <p>{{user.caption}}</p>
+           {%endfor%}
+         </div>
+       </div>
+       <div class="col-md-2 ">
+         <div class="contain">
+
+
+         <div class="open">
+           <ul class="list-group">
+             <a href="{%url 'news_feed'%}">News Feed</a></li>
+
+           </ul>
+
+         </div>
+
+
+
+
+       </div>
+
+
+
+
+       </div>
+
+     </div>
     {% endblock %}

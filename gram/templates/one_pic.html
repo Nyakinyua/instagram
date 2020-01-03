@@ -1,31 +1,55 @@
 {% extends 'layout.html'%}
 {% load bootstrap4 %}
 {% load static %}
+
 {% block content %}
-<div class="section-body">
-<h4><u>Add a comment</u></h4>
-<form action="/one_post/{{post.id}}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-  <button type="submit" class="btn btn-outline-info">Post</button>
-</form>
-<hr>
-<h3><u>Comments</u></h3>     
-<div class="row">  
-  <div class="col-md-12">
-    {% if comments %}
-      {% for comment in comments %}        
-        <div class="card bg-transparent">
-          <h5>{{comment.body}}</h5>
-          <p><small class="text-dark"><i>{{comment.posted_by}}</i></small></p>              
-        </div>
-        <br>        
-      {% endfor %}
-    {% else %}
-      <p class="alert alert-danger">No Comment posted</p>
-    {% endif %}      
+<div class="container">
+  <div class="row">          
+    <div class="col-md-7">
+      <img class="image" src="{{post.image.url}}" width="auto" height="450px"alt="{{post.image_name}}">          
+    </div>  
+    <div class="col-md-1"></div>
+    <div class="col-md-4">  
+      <div class="card cardX">        
+        <div class="card-header"><h3>{{post.image_name}}</h3></div>
+        <div class="card-body">
+         
+            <h6>{{post.caption|safe}}</h6>
+          
+        </div>                
+        <div class="card-footer">          
+          <p>Posted on: {{post.posted_on|timesince}}</p>
+          <p>Comments: {{comments|length}}</p>              
+          <hr>
+        
+        </div>  
+      </div>  
+    </div>    
+  </div>  
+  <hr>
+  <h4><u>Add a comment</u></h4>
+  <form action="/single_post/{{post.id}}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-outline-primary">Post</button>
+  </form>
+  <hr>
+  <h3><u>Comments</u></h3>     
+  <div class="row">  
+    <div class="col-md-12">
+      {% if comments %}
+        {% for comment in comments %}        
+          <div class="card bg-transparent">
+            <h5>{{comment.body}}</h5>
+            <p><small class="text-dark"><i>{{comment.posted_by}}</i></small></p>              
+          </div>
+          <br>        
+        {% endfor %}
+      {% else %}
+        <p class="alert alert-danger">No Comment posted</p>
+      {% endif %}      
+    </div>
   </div>
-</div>
 </div>    
-</div>
-{% endblock %}
+
+{% endblock %} 

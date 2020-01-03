@@ -11,44 +11,44 @@
     <div class="col-md-8">
       <div class="row">
         <div class="col-md-4">
+          
           {%for i in pic%}
-          <img class="img-fluid rounded-circle" src="{{i.pic.url}}" alt="profile">
+          <img class="img-fluid rounded-circle" src="{{i.profile_photo.url}}" alt="profile">
           {%endfor%}
         </div>
         <div class="col-md-8">
           <div class=" idea">
 
-            <a>{{user}}</a> <a href="{%url 'edit'%}"> <button type="button" class="btn btn-light">Edit Profile</button></a><a id="prompt"<i class="fas fa-cog fa-spin"></i></a>
 
           </div>
 
           {%for i in pic%}
-          <p>This is is your status</p>
-          <p>{{i.bio}}</p>
+          <a>{{user}}</a>
+          <p>Bio: {{i.bio}}</p>
           {%endfor%}
 
-
-
-
-        </div>
+    <a href="{%url 'uploads'%}"> <button type="button" class="btn btn-info">Upload Image</button></a>
+    <a href="{% url 'edit'%}"><button type="button" class="btn btn-info">Edit</button></a>
+ </div>
 
       </div>
       <br>
-      <hr class="info">
-      <div class="tags">
-        <a href="#"><i class="far fa-newspaper"></i> Posts</a><a href="#"><i class="far fa-newspaper"></i> Saved</a>
+    
       </div>
      </div>
     <div class="col-md-1"> </div>
 
   </div>
   <div class="row">
+   
     <div class="col-md-1"></div>
     <div class="col-md-8">
       <div class="row">
+          
         {%if profile%}
         {%for photo in profile%}
-        <div class="col-md-6">
+        
+        <div class="col-md-4 ">
           <div class="image">
           <a href="/stories/comment/{{photo.id}}"><img class="img-fluid" src="{{photo.image.url}}" alt=""></a>
             </div>

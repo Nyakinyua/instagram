@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insta-pics</title>
 <link href="https://fonts.googleapis.com/css?family=Raleway|Open+Sans" rel="stylesheet">
@@ -10,15 +13,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
-	body{
+
+
+.form-inline {
+		display: inline-block;
 		
-		font-family: 'Open Sans', sans-serif;
-	}
-    .form-inline {
-        display: inline-block;
+		
     }
 	.navbar-header.col {
 		padding: 0 !important;
@@ -29,7 +33,7 @@
 		padding-left: 16px;
 		padding-right: 16px;
 		border-bottom: 1px solid #d6d6d6;
-		box-shadow: 0 0 4px rgba(0,0,0,.1);		
+		box-shadow: 0 0 4px rgba(80, 34, 107, 0.1);		
 	}
 	.navbar .navbar-brand {
 		color: #555;
@@ -42,22 +46,6 @@
 		font-family: 'Pacifico', cursive;
 	}
 	
-	.navbar ul.nav li {
-		font-size: 96%;
-		font-weight: bold;		
-		text-transform: uppercase;
-	}
-	.navbar ul.nav li.active a, .navbar ul.nav li.active a:hover, .navbar ul.nav li.active a:focus {
-		color: #f04f01 !important;
-		background: transparent !important;
-	}
-	.navbar .nav-item i {
-		font-size: 18px;
-	}
-	
-	.navbar .nav-item.open > a {
-		background: none !important;
-	}
 	
 	.inp-group-max{
 	width:100%;
@@ -85,12 +73,23 @@
 			display: block;
 		}
 	}
+
+		/* Tablet Landscape */
+@media screen and (max-width: 1060px) {
+    #primary { width:67%; }
+    #secondary { width:30%; margin-left:3%;}  
+}
+/* Tabled Portrait */
+@media screen and (max-width: 768px) {
+    #primary { width:100%; }
+    #secondary { width:100%; margin:0; border:none; }
+}
 </style>
 </head> 
 <body>
 <nav class="navbar navbar-default navbar-expand-lg navbar-light">
-	<div class="navbar-header d-flex col"><img src="https://i.pinimg.com/originals/08/17/15/0817158f3a05c0d62de647c28f4cde54.jpg" alt="insta" width="60">
-		<a class="navbar-brand" href="" style="font-weight:bolder ">Instapics </a> 
+	<div class="navbar-header d-flex col"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe0T4w6hOV657FhmSQlx--9QGk_m6DQ2nPqSQSMkIZ7gvgGmlC&s" alt="insta" width="60">
+		<a class="navbar-brand" href="{% url 'home'%}" style="font-weight:bolder ">Instapics </a> 
 				
 		<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
 			<span class="navbar-toggler-icon"></span>
@@ -99,21 +98,17 @@
 	<!-- Collection of nav links, forms, and other content for toggling -->
 	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-between">
 		
-		<form class="navbar-form-inline" role="search" action="{% url 'search_results' %}" type="search">
-
-                <div class="input-group inp-group-max">
-                    <input type="text" class="form-control mr-sm-2" placeholder="Search Image" name="image">
-                    <div class="input-group-btn">
-                        <button type="submit" class="btn btn-outline-info my-2 my-sm-0">Search</button>
-                    </div>
-                </div>
-
-            </form>	
+		<form  action="{%url 'search_results'%}" role="search" class="form-inline  my-2 my-lg-0">
+				<div style="text-align: right;">
+			<input id="searchUp" class="form-control mr-sm-2" name="user" type="search" placeholder="Search" aria-label="Search">
+		<button class=" btn btn-info">search</button> 
+		</div>
+		</form>	
 		
-			<ul class="navbar-nav ml-auto justify content-left">  
+			<ul class="navbar-nav ml-auto" style="text-align: right; padding-right: .6em;">  
 				{% if user.is_authenticated %} 
-				  {% if user.userprofile.pic %}          
-				  <img class="img-fluid rounded-circle" src="{{i.pic.url}}" alt="profile"> width="40px" height="40px"alt="Profile photo">                              
+				  {% if user.profile_photo %}          
+				  <img class="img-fluid rounded-circle" src="{{i.profile_photo.url}}" alt="profile" width="40px" height="40px"alt="Profile photo">                              
 				  {% else %}
 				  <a id="navUser" class="" href="{%url 'profile'%}"><img class="rounded-circle"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLLiVPh45RkmE-FnMz_mZBOwcrK2BemrMoJ5I5SRSa5zHuMy3L&s" width="40px" height="40px" alt="Profile photo"></a>
 				  {% endif %}          

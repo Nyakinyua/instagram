@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-8">
           <div class=" idea">
-            <a>{{user}}</a> <a href="{%url 'edit'%}"><button type="button" class="btn btn-light">Edit Profile</button></a><a id="prompt"<i class="fas fa-cog fa-spin"></i></a>
+            <a>{{user}}</a>
 
           </div>
 
@@ -27,13 +27,11 @@
       </div>
       <br>
       <hr class="info">
-      <div class="tags">
-        <a href="#"><i class="far fa-newspaper"></i> Edit Profile</a>
-      </div>
+    
       <br>
       <div class="uploads">
         <form class="form-group" action="{%url 'edit'%}" method="post" enctype="multipart/form-data">
-          <h3>Instagram Edit Profile</h3>
+          <h3>Edit Profile</h3>
           {%csrf_token%}
           {%bootstrap_form form%}
 
