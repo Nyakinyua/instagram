@@ -2,8 +2,14 @@
 {% load bootstrap4 %}
 {% load static %}
 
+{% block styles %}
+  {{block.super}} 
+  <link rel="stylesheet" href="{% static 'css/single_post.css' %}">    
+{% endblock styles %}
+
 {% block content %}
 <div class="container">
+ 
   <div class="row">          
     <div class="col-md-7">
       <img class="image" src="{{post.image.url}}" width="auto" height="450px"alt="{{post.image_name}}">          
