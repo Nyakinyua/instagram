@@ -20,8 +20,6 @@ class Profile(models.Model):
         profile=Profile.objects.all().delete()
         return profile
     
-    def search_user(cls,user):
-        return User.objects.filter(username__icontains=user)
     
 class Like(models.Model):
     like = models.IntegerField(blank=True,default= 0)
@@ -59,9 +57,14 @@ class Images(models.Model):
         return images
     
     @classmethod
-    def search_by_image_name(cls,search_term):
-        image = cls.objects.filter(image_name__icontains=search_term)
+    def get_one_image(cls,id):
+        image=cls.objects.get(id=id)
         return image
+    
+    @classmethod
+    def search_users(cls,term):
+        result=cls.objects.filter(user__username__icontains=term)
+        return result
     
     @classmethod
     def get_user_posts(cls,user_id):
@@ -70,6 +73,14 @@ class Images(models.Model):
         """
         posts = cls.objects.filter(posted_by__id__contains=user_id)
         return posts
+    
+    @classmethod
+    def get_image_id(cls,imageId):
+        '''
+        function that gets an image id    
+        '''
+        image_id=cls.objects.filter(id=imageId)
+        return image_id
     
 class Comment(models.Model):
     comment = models.TextField(max_length=45,blank=True)
@@ -88,7 +99,7 @@ class Comment(models.Model):
         return self.comment
     
     @classmethod
-    def get_comments(self):
+    def get_comments(cls,id):
         comments = cls.objects.filter(image_id__in=id)
         return comments
     
