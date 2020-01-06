@@ -12,7 +12,7 @@ Instapic is a social networking web application app made for sharing photos and 
 ### Cloning
 * In your terminal:
         `$ git clone https://github.com/Nyakinyua/instagram.org`
-        `$ cd pexels`
+        `$ cd instagram`
 
 ## Running the Application
 * Creating the virtual environment and activating the the virtual environment
@@ -34,19 +34,19 @@ Instapic is a social networking web application app made for sharing photos and 
 
     `$ python3.6 manage.py test`
 
-## Contributing
-* To add more column s to the database
-    `$ python3.6 manage.py makemigrations`
-    `$ python3.6 manage.py migrate`
+
 
 ## Technologies Used
   This project was generated with
   * [Python](https://www.python.org/) version 3.6.9.
-  * [Django](https://www.fullstackpython.com/django.html).
-  * Django-Bootstrap.
-  * Psycopg2.
-  * CSS
-  * HTML
+  * [Django](https://www.fullstackpython.com/django.html)version2.2.4.
+  * Django-Bootstrap4.
+  * Psql database
+  * CSS3
+  * HTML5
 ## Support and contact details
  In case You have any contributions and add ons to this application or any issues using this code please feel free to get in touch with me via [email](wanyakinyua968@gmail.com)
-# [License](https://github.com/Nyakinyua/instagram/blob/master/LICENSE)
+## License 
+#### This project is licensed by [Mit License](https://github.com/Nyakinyua/instagram/blob/master/LICENSE)
+  
+  ####     (c) **[Nyakinyua](https://github.com/)**

@@ -5,7 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UploadImage,EditProfile,UpdateProfile,CommentForm,Like,Follow
 from django.contrib.auth import logout
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from .forms import SignupForm
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.contrib.auth import login, authenticate
 
 
 # Create your views here.
@@ -71,7 +78,7 @@ def uploads(request):
     
     return render(request,'upload.html',{'title':title,'form':form})
             
-
+@login_required(login_url='/accounts/login/')
 def search_results(request):
     if 'user' in request.GET and request.GET['user']:
         term=request.GET.get("user")
@@ -122,7 +129,7 @@ def edit(request):
 @login_required(login_url="/accounts/login/")
 def one_post(request,id):
   '''
-  view function that renders a single post and  comments sections
+  view function that renders one post and has a comment section
   '''  
   if request.method=='POST':
     form=CommentForm(request.POST)
